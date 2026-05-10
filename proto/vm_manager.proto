@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package vm_manager;
+
+service VMManager {
+    rpc CreateVM (CreateVMRequest) returns (VMResponse);
+    rpc DeleteVM (VMRequest)       returns (VMResponse);
+    rpc StartVM  (VMRequest)       returns (VMResponse);
+    rpc StopVM   (VMRequest)       returns (VMResponse);
+    rpc GetVM    (VMRequest)       returns (VMResponse);
+    rpc ListVMs  (ListVMsRequest)  returns (ListVMsResponse);
+}
+
+message CreateVMRequest {
+    string vm_name    = 1;
+    int32  ram_mb     = 2;
+    int32  vcpus      = 3;
+    int32  disk_gb    = 4;
+    string base_image = 5;
+    repeated string nodes = 6;
+}
+
+message VMRequest {
+    string vm_name        = 1;
+    repeated string nodes = 2;
+}
+
+message ListVMsRequest {
+    repeated string nodes = 1;
+}
+
+message VMResponse {
+    string vm_name = 1;
+    string uuid    = 2;
+    string status  = 3;
+    string node    = 4;
+}
+
+message ListVMsResponse {
+    repeated VMResponse vms = 1;
+}
+
+message Empty {}
